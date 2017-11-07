@@ -51,17 +51,18 @@ class SimplePlotter(MplPlotter):
             print(subplotnum, dataind)
         return True
 
-    def plot(self, x_lin, x_raw, y_raw, popt, func):
+    def plot(self, x_lin, x_raw, y_raw, popt, func, ymin, ymax, title=''):
         line, = self.axes.semilogx(x_raw, y_raw, "o", picker=5)
 
         line2, = self.axes.semilogx(x_lin, func(x_lin, *popt), "-", label=r"$K_d$ = %.2f nM" % popt[0])
         # plt.semilogx(x, y, "o")
 
-        # plt.ylim([870,940])
+        self.axes.set_ylim([ymin, ymax])
         self.fig.canvas.mpl_connect('pick_event', lambda event: self.onpick(event, line))
         # self.axes.plot(x, y)
         self.axes.set_xlabel("concentration [nM]")
         self.axes.set_ylabel("fluo. ratio")
+        self.axes.set_title(title)
         # self.axes.xaxis.set_label_position('top')
 
     def saveFigure(self, path, outputFormat):
