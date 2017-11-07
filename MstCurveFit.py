@@ -9,7 +9,7 @@ def read_file(fname):
         # 0: not recording, 1: start of dataset, 2: inside dataset
         for line in fin:
             l = line.strip()
-            if "Data Analysis [Thermophoresis With Temperature Jump]" in l:
+            if "Data Analysis " in l:
                 dataflag = 1
                 continue
             if dataflag:
@@ -32,6 +32,8 @@ class MST_CurveFit(object):
     def __init__(self, fname, protein_conc):
         super(MST_CurveFit, self).__init__()
         self.read_in = read_file(fname)
+        self.lig_conc_orig = self.read_in[0] # ligand concentrations (unlabeled substance)
+        self.ratios_orig = self.read_in[1] # depletion ratio
         self.lig_conc = self.read_in[0] # ligand concentrations (unlabeled substance)
         self.ratios = self.read_in[1] # depletion ratio
         print(self.lig_conc)

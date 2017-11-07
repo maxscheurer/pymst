@@ -9,6 +9,7 @@ from PyQt5.QtWidgets import (QMainWindow, QTabWidget, QLabel, QDialog, QProgress
                              QApplication, QGridLayout, QFileDialog, QColorDialog, QWidget, QAbstractItemView,
                              QCheckBox)
 from PyQt5.Qt import Qt, QColor
+import numpy as np
 
 import MainWindow_gui
 from MSTTable import MstTableModel
@@ -52,6 +53,21 @@ class MainWindow(QMainWindow, MainWindow_gui.Ui_MainWindow, QObject):
 
 
     def plotMST(self):
+        idx = 0
+        indexList = []
+        self.excluded_conc = []
+        self.excluded_ratios = []
+        if self.table_model.mst_data and len(self.table_model.mst_data):
+            for x in self.table_model.mst_data:
+                if x[0].isChecked():
+                    print("Exclude index ", idx)
+                    indexList.append(idx)
+                else:
+                    self.excluded_conc.append(self.mst.lig_conc_orig[idx])
+                    self.excluded_ratios.append(self.mst.ratios_orig[idx])
+                idx += 1
+            self.mst.lig_conc = np.array(self.excluded_conc, dtype=float)
+            self.mst.ratios = np.array(self.excluded_ratios, dtype=float)
         self.mst.protein_conc = float(self.concField.text())
         self.mst.fit_mst_curve()
         sip.delete(self.plot)
@@ -65,8 +81,13 @@ class MainWindow(QMainWindow, MainWindow_gui.Ui_MainWindow, QObject):
         self.kdField.setText("%.2f nM" % self.mst.kd)
 
         self.tableData = []
-        for conc, ratio in zip(self.mst.lig_conc, self.mst.ratios):
-            self.tableData.append([QCheckBox(), conc, ratio])
+        idx = 0
+        for conc, ratio in zip(self.mst.lig_conc_orig, self.mst.ratios_orig):
+            box = QCheckBox()
+            if idx in indexList:
+                box.setCheckState(2)
+            self.tableData.append([box, conc, ratio])
+            idx += 1
         # self.table_model.setDataList([[QCheckBox(), 12.3, 13.12],
                                     #   [QCheckBox(), 12.4, 13.22]])
         # print(self.tableData)
