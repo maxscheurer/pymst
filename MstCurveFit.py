@@ -61,6 +61,6 @@ class MST_CurveFit(object):
         ss_res = np.sum(residuals**2)
         ss_tot = np.sum((y - np.mean(y))**2)
         self.r_squared = 1 - (ss_res / ss_tot)
-        print(self.r_squared)
+        # print(self.r_squared)
 
         self.x_lin = np.arange(x_min, np.max(x) + x_max_offset, dx)

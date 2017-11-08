@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1023</width>
-    <height>608</height>
+    <height>642</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -43,17 +43,17 @@
        </size>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="6" column="1">
+       <item row="7" column="1">
         <widget class="QLineEdit" name="plotTitleField"/>
        </item>
-       <item row="6" column="0">
+       <item row="7" column="0">
         <widget class="QLabel" name="label_4">
          <property name="text">
           <string>title</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
+       <item row="5" column="0">
         <widget class="QLabel" name="label_2">
          <property name="text">
           <string>y_min</string>
@@ -67,14 +67,14 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="0" colspan="2">
+       <item row="4" column="0" colspan="2">
         <widget class="Line" name="line">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-       <item row="8" column="0" colspan="2">
+       <item row="9" column="0" colspan="2">
         <widget class="Line" name="line_2">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -95,31 +95,31 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="0">
+       <item row="6" column="0">
         <widget class="QLabel" name="label_3">
          <property name="text">
           <string>y_max</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="1">
-        <widget class="QLineEdit" name="yminField">
-         <property name="text">
-          <string>850</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
+       <item row="6" column="1">
         <widget class="QLineEdit" name="ymaxField">
          <property name="text">
           <string>950</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="0" colspan="2">
+       <item row="5" column="1">
+        <widget class="QLineEdit" name="yminField">
+         <property name="text">
+          <string>850</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="2">
         <widget class="QTableView" name="tableView"/>
        </item>
-       <item row="9" column="0" colspan="2">
+       <item row="10" column="0" colspan="2">
         <widget class="QWidget" name="resultWidget" native="true">
          <property name="sizePolicy">
           <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
@@ -156,27 +156,20 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_9">
-            <property name="text">
-             <string>TextLabel</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLabel" name="label_10">
-            <property name="text">
-             <string>TextLabel</string>
-            </property>
-           </widget>
-          </item>
          </layout>
         </widget>
        </item>
-       <item row="7" column="0">
+       <item row="8" column="0">
         <widget class="QCheckBox" name="checkBox">
          <property name="text">
           <string>show KD in plot</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="2">
+        <widget class="QPushButton" name="savePlotButton">
+         <property name="text">
+          <string>Save Plot</string>
          </property>
         </widget>
        </item>

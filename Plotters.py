@@ -51,7 +51,7 @@ class SimplePlotter(MplPlotter):
             print(subplotnum, dataind)
         return True
 
-    def plot(self, x_lin, x_raw, y_raw, popt, func, ymin, ymax, title=''):
+    def plot(self, x_lin, x_raw, y_raw, popt, func, ymin, ymax, title='', showKD=False):
         line, = self.axes.semilogx(x_raw, y_raw, "o", picker=5)
 
         line2, = self.axes.semilogx(x_lin, func(x_lin, *popt), "-", label=r"$K_d$ = %.2f nM" % popt[0])
@@ -63,6 +63,8 @@ class SimplePlotter(MplPlotter):
         self.axes.set_xlabel("concentration [nM]")
         self.axes.set_ylabel("fluo. ratio")
         self.axes.set_title(title)
+        if showKD:
+            self.axes.legend(loc='lower left')
         # self.axes.xaxis.set_label_position('top')
 
     def saveFigure(self, path, outputFormat):

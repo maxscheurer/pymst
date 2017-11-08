@@ -1,13 +1,13 @@
 from __future__ import print_function
 import warnings
 import copy
-import sip
+import sip, os
 
 import PyQt5.QtCore as QtCore
 from PyQt5.QtCore import QRect, pyqtSlot, QObject
 from PyQt5.QtWidgets import (QMainWindow, QTabWidget, QLabel, QDialog, QProgressBar,
                              QApplication, QGridLayout, QFileDialog, QColorDialog, QWidget, QAbstractItemView,
-                             QCheckBox)
+                             QCheckBox, QFileDialog)
 from PyQt5.Qt import Qt, QColor
 import numpy as np
 
@@ -31,6 +31,7 @@ class MainWindow(QMainWindow, MainWindow_gui.Ui_MainWindow, QObject):
         self.setupUi(self)
         self.actionLoad.triggered.connect(self.loadFile)
         self.fitButton.clicked.connect(self.plotMST)
+        self.savePlotButton.clicked.connect(self.savePlot)
         self.grid = QGridLayout()
         self.plotWidget.setLayout(self.grid)
         self.plot = SimplePlotter()
@@ -57,6 +58,7 @@ class MainWindow(QMainWindow, MainWindow_gui.Ui_MainWindow, QObject):
         indexList = []
         self.excluded_conc = []
         self.excluded_ratios = []
+        showKD = self.checkBox.isChecked()
         if self.table_model.mst_data and len(self.table_model.mst_data):
             for x in self.table_model.mst_data:
                 if x[0].isChecked():
@@ -77,8 +79,10 @@ class MainWindow(QMainWindow, MainWindow_gui.Ui_MainWindow, QObject):
                        self.mst.popt, self.mst.fluo_func,
                        float(self.yminField.text()),
                        float(self.ymaxField.text()),
-                       self.plotTitleField.text())
+                       self.plotTitleField.text(),
+                       showKD)
         self.kdField.setText("%.2f nM" % self.mst.kd)
+        self.r2Field.setText("%.4f" % self.mst.r_squared)
 
         self.tableData = []
         idx = 0
@@ -92,6 +96,21 @@ class MainWindow(QMainWindow, MainWindow_gui.Ui_MainWindow, QObject):
                                     #   [QCheckBox(), 12.4, 13.22]])
         # print(self.tableData)
         self.table_model.setDataList(self.tableData)
+
+    def savePlot(self):
+        """Saves the generated plot."""
+        fileName = QFileDialog.getSaveFileName(self, 'Export Path', self.plotTitleSuggestion)
+        if len(fileName[0]) > 0:
+            path, file_extension = os.path.splitext(fileName[0])
+            if file_extension == "":
+                file_extension = ".png"
+            file_extension = file_extension[1:]
+            try:
+                self.plot.saveFigure(path, file_extension)
+            except ValueError:
+                box = ErrorBox("File format " + file_extension + " is not supported.\nPlease choose from eps, pdf, pgf,"
+                                                                 " png, ps, raw, rgba, svg, svgz. ")
+                box.exec_()
 
 
     def loadFile(self):
