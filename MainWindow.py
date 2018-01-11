@@ -77,23 +77,24 @@ class MainWindow(QMainWindow, MainWindow_gui.Ui_MainWindow, QObject):
         sip.delete(self.plot)
         self.plot = SimplePlotter()
         self.grid.addWidget(self.plot)
-        self.plot.plot(self.mst.x_lin, self.mst.lig_conc, self.mst.ratios,
+        self.plot.plot(self.mst.x_lin, self.mst.lig_conc, self.mst.ratios_mean,
                        self.mst.popt, self.mst.fluo_func,
                        float(self.yminField.text()),
                        float(self.ymaxField.text()),
                        self.plotTitleField.text(),
-                       showKD)
+                       showKD, self.mst.sem)
         self.kdField.setText("%.2f nM" % self.mst.kd)
         self.r2Field.setText("%.4f" % self.mst.r_squared)
 
         self.tableData = []
         idx = 0
-        for conc, ratio in zip(self.mst.lig_conc_orig, self.mst.ratios_orig):
-            box = QCheckBox()
-            if idx in indexList:
-                box.setCheckState(2)
-            self.tableData.append([box, conc, ratio])
-            idx += 1
+        # for conc, ratio in zip(self.mst.lig_conc_orig, self.mst.ratios_orig):
+        #     box = QCheckBox()
+        #     if idx in indexList:
+        #         box.setCheckState(2)
+        #     self.tableData.append([box, conc, ratio])
+        #     idx += 1
+        
         # self.table_model.setDataList([[QCheckBox(), 12.3, 13.12],
                                     #   [QCheckBox(), 12.4, 13.22]])
         # print(self.tableData)

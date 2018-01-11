@@ -51,8 +51,12 @@ class SimplePlotter(MplPlotter):
             print(subplotnum, dataind)
         return True
 
-    def plot(self, x_lin, x_raw, y_raw, popt, func, ymin, ymax, title='', showKD=False):
-        line, = self.axes.semilogx(x_raw, y_raw, "o", picker=5)
+    def plot(self, x_lin, x_raw, y_raw, popt, func, ymin, ymax, title='', showKD=False, sem=None):
+        self.axes.set_xscale("log", nonposx='clip')
+        # line, = self.axes.semilogx(x_raw, y_raw, "o", picker=5)
+        if sem is None:
+            sem = np.zeros(len(x_raw))
+        line = self.axes.errorbar(x_raw, y_raw, fmt="o", yerr=sem, picker=5)
 
         line2, = self.axes.semilogx(x_lin, func(x_lin, *popt), "-", label=r"$K_d$ = %.2f nM" % popt[0])
         # plt.semilogx(x, y, "o")

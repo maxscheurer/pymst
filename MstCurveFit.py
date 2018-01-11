@@ -46,10 +46,9 @@ class MST_CurveFit(object):
 
         ratios_np = np.array(self.ratios)
         sem = stats.sem(ratios_np)
-        sem = np.nan_to_num(sem)
-        print(sem)
+        self.sem = np.nan_to_num(sem)
         print(ratios_np, ratios_np.shape)
-        print(np.mean(ratios_np, axis=0))
+        self.ratios_mean = np.mean(ratios_np, axis=0)
         # print(self.lig_conc)
         # print(self.ratios)
         self.ratios_np = ratios_np
@@ -67,7 +66,7 @@ class MST_CurveFit(object):
         x_max_offset = 1e6
         dx = 100
         x = self.lig_conc
-        y = self.ratios
+        y = self.ratios_mean
         # run fit
         self.popt, self.pcov = curve_fit(self.fluo_func, x, y)
         # prepare plot
