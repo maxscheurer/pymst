@@ -29,13 +29,20 @@ def read_file(fname):
 class MST_CurveFit(object):
     """docstring for MST_CurveFit."""
 
-    def __init__(self, fname, protein_conc):
+    def __init__(self, fnames, protein_conc):
         super(MST_CurveFit, self).__init__()
-        self.read_in = read_file(fname)
-        self.lig_conc_orig = self.read_in[0] # ligand concentrations (unlabeled substance)
-        self.ratios_orig = self.read_in[1] # depletion ratio
-        self.lig_conc = self.read_in[0] # ligand concentrations (unlabeled substance)
-        self.ratios = self.read_in[1] # depletion ratio
+        self.read_in = []
+        for f in fnames:
+            self.read_in.append(read_file(f))
+        print(len(fnames), " files loaded for fit.")
+
+        self.lig_conc = []
+        # this is now a list of lists
+        self.ratios = []
+        for d in self.read_in:
+            self.lig_conc = np.unique(np.concatenate((self.lig_conc, d[0]), 0))
+            self.ratios.append(d[1])  # depletion ratio
+
         print(self.lig_conc)
         print(self.ratios)
         self.protein_conc = float(protein_conc)

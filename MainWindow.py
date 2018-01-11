@@ -51,6 +51,8 @@ class MainWindow(QMainWindow, MainWindow_gui.Ui_MainWindow, QObject):
         # enable sorting
         # self.tableView.setSortingEnabled(True)
         self.dataPlotted = False
+        self.loadedData = False
+        self.importfiles = []
 
 
     def plotMST(self):
@@ -122,7 +124,7 @@ class MainWindow(QMainWindow, MainWindow_gui.Ui_MainWindow, QObject):
             break
         if importfile == "" or len(fnames) == 0:
             return
-        self.importfile = importfile
-        self.mst = MST_CurveFit(self.importfile, self.concField.text())
-        self.plotTitleSuggestion = self.importfile.split('/')[-1].split(".")[0]
+        self.importfiles.append(importfile)
+        self.mst = MST_CurveFit(self.importfiles, self.concField.text())
+        self.plotTitleSuggestion = importfile.split('/')[-1].split(".")[0]
         self.plotTitleField.setText(self.plotTitleSuggestion)
