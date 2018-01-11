@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.optimize import curve_fit
+from scipy import stats
 
 def read_file(fname):
     x = []
@@ -43,8 +44,15 @@ class MST_CurveFit(object):
             self.lig_conc = np.unique(np.concatenate((self.lig_conc, d[0]), 0))
             self.ratios.append(d[1])  # depletion ratio
 
-        print(self.lig_conc)
-        print(self.ratios)
+        ratios_np = np.array(self.ratios)
+        sem = stats.sem(ratios_np)
+        sem = np.nan_to_num(sem)
+        print(sem)
+        print(ratios_np, ratios_np.shape)
+        print(np.mean(ratios_np, axis=0))
+        # print(self.lig_conc)
+        # print(self.ratios)
+        self.ratios_np = ratios_np
         self.protein_conc = float(protein_conc)
 
     def fluo_func(self, a, kd, fnb, fnab):
